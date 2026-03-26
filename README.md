@@ -30,7 +30,7 @@
 
 ## ⚙️ Yêu cầu hệ thống
 
-* **Hệ điều hành:** Windows 10 / 11 (64-bit).
+* **Hệ điều hành:** Windows 10 / 11
 
 ## Tải xuống & Cài đặt
 
