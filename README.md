@@ -7,7 +7,7 @@
 
 ## 🚀 Xem Demo
 
-**Live Demo**: [https://songmaucodai.com/read-mail-ol/](https://songmaucodai.com/read-mail-ol/)
+**Live Demo**: [UI Demo](https://github.songmaucodai.com/read-mail-ol/)
 
 ## 📖 Giới thiệu
 
