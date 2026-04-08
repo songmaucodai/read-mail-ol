@@ -3,341 +3,389 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Read Mail Outlook - Tool Get Token & Read Mail</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-
+    <title>Read Mail Ol - Simulator</title>
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --text-color: #f8fafc;
-            --accent-color: #0ea5e9;
-            --secondary-text: #94a3b8;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --border-color: rgba(255, 255, 255, 0.1);
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
+        
+        body, html { margin: 0; padding: 0; height: 100vh; background: #0f1015; display: flex; flex-direction: column; font-family: 'Inter', sans-serif; overflow: hidden; }
+        
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg); border-radius: 5px; margin-top: 5px; margin-bottom: 5px; }
+        ::-webkit-scrollbar-thumb { background: #363746; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4c4f6b; }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            background-image: linear-gradient(to bottom, #0f172a, #172554);
-            color: var(--text-color);
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
-        }
+        #showcase-top { flex: 1; display: flex; align-items: center; justify-content: center; background-color: #0b0c10; background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 20px 20px; position: relative; }
+        
+        .back-to-github { position: absolute; left: 10px; display: inline-flex; align-items: center; gap: 10px; padding: 3px 18px; color: #8b949e; text-decoration: none; font-family: inherit; font-size: 12px; transition: all 0.2s ease; background-color: transparent; cursor: pointer; z-index: 100; }
+        .back-to-github:hover { color: #c9d1d9; }
+        .back-to-github svg { transition: transform 0.2s ease; }
+        .back-to-github:hover .icon-arrow { transform: translateX(-4px); }
 
-        /* HEADER */
-        .header-section {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeIn 1s ease-out;
-        }
+        .window-controls span:last-child { cursor: pointer; padding: 2px 8px; border-radius: 2px; transition: background-color 0.2s ease; }
+        .window-controls span:last-child:hover { background-color: #e81123; color: #fff;}
 
-        .project-logo {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 20px rgba(14, 165, 233, 0.3));
-            margin-bottom: 20px;
-        }
+        .app-window { width: 1024px; height: 650px; background: #191a23; box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.1); border-radius: 0; position: absolute; display: flex; flex-direction: column; transform-origin: center center; transition: transform 0.1s ease-out; }
 
-        h1 {
-            font-size: 2.5rem;
-            margin: 0 0 10px 0;
-            font-weight: 800;
-            background: linear-gradient(to right, #fff, #bfdbfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        .app-title-bar { height: 32px; background: #000; flex-shrink: 0; display: flex; align-items: center; padding: 0 12px; color: #ccc; font-size: 12px; font-family: 'Segoe UI', Tahoma, sans-serif; border-bottom: 1px solid #222; }
+        .app-title-bar img { width: 16px; height: 16px; margin-right: 8px; }
+        .app-title-bar .window-controls { margin-left: auto; display: flex; align-items: center; gap: 15px; color: #888; cursor: pointer; }
+        .app-body { flex: 1; display: flex; flex-direction: row; overflow: hidden; position: relative; }
+        
+        #showcase-bottom { height: 120px; flex-shrink: 0; background: #1e1e24; border-top: 2px solid #111; display: flex; flex-direction: column; box-shadow: 0 -10px 20px rgba(0,0,0,0.4); z-index: 10; }
+        .code-header { background: #282c34; padding: 8px 20px; border-bottom: 1px solid #111; display: flex; align-items: center; justify-content: space-between; }
+        .code-title { color: #61afef; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+        .code-badge { background: #98c379; color: #282c34; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        .code-content { flex: 1; padding: 10px 20px; overflow-y: auto; font-family: 'Fira Code', monospace; font-size: 12px; line-height: 1.4; color: #abb2bf; }
+        pre { margin: 0; white-space: pre-wrap; transition: opacity 0.2s ease; }
+        .keyword { color: #c678dd; } .function { color: #61afef; } .string { color: #98c379; } .comment { color: #5c6370; font-style: italic; }
 
-        .subtitle {
-            font-size: 1.1rem;
-            color: var(--secondary-text);
-            font-weight: 400;
-        }
+        :root { --bg: #191a23; --panel: #1e1f2b; --line: #4c4f6b; --text: rgba(235,238,248,.92); --muted: rgba(235,238,248,.45); --teal: #18c7b6; --tealFg: rgba(24,199,182,.95); }
+        .left-panel { flex: 1; display: flex; flex-direction: column; border-right: 1px solid var(--line); }
+        .right-panel { width: 320px; background: var(--bg); display: flex; flex-direction: column; padding: 15px; gap: 12px; }
+        
+        .tabs-bar { position: relative; height: 40px; display: flex; align-items: center; background: var(--panel); border-bottom: 1px solid var(--line); padding: 0 10px; flex-shrink: 0;}
+        .tab-btn { height: 100%; padding: 0 20px; border: none; background: transparent; color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; }
+        .tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.02); }
+        .tab-btn.active { color: var(--tealFg); background: rgba(24, 199, 182, 0.05); border-bottom: 2px solid var(--teal); }
+        .header-icon-btn { margin-left: auto; height: 32px; padding: 0 10px; border: none; background: transparent; color: var(--muted); cursor: pointer; font-size: 16px; font-weight: bold; }
+        
+        .content-area { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+        .mail-results { flex: 1; overflow-y: auto; background: var(--panel); }
+        .mail-row { padding: 12px 15px; border-bottom: 1px solid var(--line); cursor: pointer; color: var(--text); }
+        .mail-row:hover { background: #262736; }
+        .mail-row-subject { font-weight: 600; font-size: 14px; margin-bottom: 5px; color: #fff; }
+        .mail-row-meta { font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; margin-bottom: 4px; }
+        .mail-row-preview { color:#888; font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        
+        .section-title { color: var(--muted); font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .acc-list-box { flex: 1; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 5px; color: #aaa; font-size: 12px; overflow-y: auto; }
+        .acc-item { padding: 8px 10px; cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; }
+        .acc-item:hover { background: rgba(255,255,255,0.05); }
+        .acc-item.selected { background: rgba(24, 199, 182, 0.15); color: var(--tealFg); border-left: 3px solid var(--teal); }
+        
+        .btn-row { display: flex; gap: 10px; }
+        .btn-std { flex: 1; height: 36px; background: transparent; border: 1px solid var(--line); color: var(--text); border-radius: 6px; cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;}
+        .btn-std:hover { border-color: var(--teal); color: var(--tealFg); background: rgba(24, 199, 182, 0.05); }
+        .btn-main { height: 46px; background: var(--teal); color: #111; border: none; border-radius: 6px; font-size: 14px; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-top: 10px; }
+        
+        .menu-float { position: absolute; top: 45px; right: 10px; background: var(--panel); border: 1px solid #333; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 100; width: 160px; display: none; }
+        .menu-item { padding: 10px 15px; color: var(--text); font-size: 13px; cursor: pointer; display: flex; gap: 10px; }
+        .menu-item:hover { background: rgba(255,255,255,0.05); color: var(--tealFg); }
+        
+        .dlg-overlay { position: absolute; inset: 0; z-index: 999; display: none; justify-content: center; align-items: center; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); }
+        .settings-dlg { width: 700px; height: 450px; background: var(--bg); border: 1px solid #333; border-radius: 8px; display: flex; overflow: hidden; position: relative; }
+        .settings-side { width: 180px; background: rgba(0,0,0,0.2); padding: 20px 0; border-right: 1px solid #333; }
+        .side-item { padding: 10px 20px; font-size: 13px; color: #888; cursor: pointer; }
+        .side-item:hover { color: #fff; }
+        .side-item.active { color: var(--tealFg); background: rgba(24,199,182,0.1); border-left: 3px solid var(--teal); }
+        .settings-main { flex: 1; padding: 30px; display: flex; flex-direction: column; color: #fff; }
 
-        /* WINDOW FRAME */
-        .window-frame {
-            width: 100%;
-            max-width: 750px;
-            background: #1e293b;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            margin-bottom: 50px;
-            position: relative;
-        }
+        .app-toast { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: #282a36; color: #fff; padding: 10px 20px; border-radius: 50px; font-weight: 500; font-size: 13px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); border: 1px solid #444; display: flex; align-items: center; gap: 10px; opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 3000; }
+        .app-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-        .window-header {
-            background: #334155;
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .dot { width: 10px; height: 10px; border-radius: 50%; }
-        .dot.red { background: #ef4444; }
-        .dot.yellow { background: #f59e0b; }
-        .dot.green { background: #22c55e; }
-
-        .image-container {
-            position: relative;
-            min-height: 200px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #0f172a;
-        }
-
-        .app-screenshot {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .placeholder-image {
-            width: 100%;
-            aspect-ratio: 16/9;
-            display: flex; 
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            background: repeating-linear-gradient(
-                45deg,
-                rgba(255,255,255,0.03),
-                rgba(255,255,255,0.03) 10px,
-                rgba(255,255,255,0.05) 10px,
-                rgba(255,255,255,0.05) 20px
-            );
-            color: var(--secondary-text);
-        }
-
-        /* FEATURES */
-        .features-section {
-            max-width: 700px;
-            text-align: left;
-            margin-bottom: 40px;
-            width: 100%;
-        }
-
-        .features-section h2 {
-            font-size: 1.5rem;
-            border-left: 4px solid var(--accent-color);
-            padding-left: 15px;
-            margin-bottom: 20px;
-        }
-
-        .features-section p {
-            line-height: 1.7;
-            color: #cbd5e1;
-            margin-bottom: 15px;
-        }
-
-        .feature-list {
-            list-style: none;
-            padding: 0;
-            display: grid;
-            gap: 12px;
-        }
-
-        .feature-list li {
-            padding-left: 25px;
-            position: relative;
-            color: var(--secondary-text);
-        }
-
-        .feature-list li::before {
-            content: "\f00c";
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            position: absolute;
-            left: 0;
-            color: var(--accent-color);
-        }
-
-        /* REQUIREMENTS - ĐÃ BỎ ICON & CĂN GIỮA HOÀN TOÀN */
-        .requirements-box {
-            background: rgba(14, 165, 233, 0.1);
-            border: 1px solid var(--accent-color);
-            border-radius: 8px;
-            
-            /* Padding chuẩn, không cần chừa chỗ cho icon nữa */
-            padding: 15px 20px;
-            
-            margin-bottom: 40px;
-            color: #e0f2fe;
-            
-            /* Căn giữa nội dung */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            
-            max-width: 700px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .requirements-box .req-text {
-            /* Style font chữ cũ của bạn */
-            font-size: 0.9em;
-            opacity: 0.8;
-            line-height: 1.5;
-        }
-
-        /* DOWNLOAD BOX - GIỮ NGUYÊN */
-        .download-box {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-            margin-bottom: 40px;
-            
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 35px 30px; 
-            gap: 25px; 
-        }
-
-        .download-box span.version-text {
-            color: var(--secondary-text);
-            margin: 0;
-            line-height: 1.2;
-        }
-
-        .btn-download {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            font-size: 1rem;
-            background: var(--accent-color);
-            color: #fff;
-            box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
-            margin: 0;
-        }
-
-        .btn-download:hover {
-            transform: translateY(-2px);
-            background: #38bdf8;
-        }
-
-        .note {
-            font-size: 0.8rem;
-            color: var(--secondary-text);
-            margin: 0;
-            line-height: 1.2;
-        }
-
-        /* FOOTER */
-        .footer-nav {
-            margin-top: auto;
-            display: flex;
-            gap: 20px;
-        }
-        .footer-nav a {
-            color: var(--secondary-text);
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-        .footer-nav a:hover {
-            color: #fff;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-spinner { width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid var(--teal); border-radius: 50%; animation: spin 1s linear infinite; }
     </style>
 </head>
 <body>
 
-    <div class="header-section">
-        <img src="Logo-app.png" alt="Logo Read Mail Outlook" class="project-logo">
-        <h1>Read Mail Outlook</h1>
-        <p class="subtitle">Công cụ lấy Refresh Token & Đọc Mail Outlook</p>
-    </div>
-
-    <div class="window-frame">
-        <div class="window-header">
-            <div class="dot red"></div>
-            <div class="dot yellow"></div>
-            <div class="dot green"></div>
-        </div>
-        
-        <div class="image-container">
-            <img src="screenshot.png" alt="Giao diện phần mềm" class="app-screenshot" id="real-image" onerror="showFallback()">
-            
-            <div class="placeholder-image" id="fallback-box" style="display: none;">
-                <i class="fa-solid fa-image" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
-                <span>Giao diện phần mềm sẽ được cập nhật sớm</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="features-section">
-        <h2>Giới thiệu</h2>
-        <p>
-            Công cụ hỗ trợ lấy Refresh Token từ tài khoản Microsoft và sử dụng nó để truy cập email trong hộp thư Outlook một cách tự động. 
-            Giải pháp này giúp bạn quản lý số lượng lớn tài khoản thông qua giao thức OAuth2 an toàn.
-        </p>
-        
-        <ul class="feature-list">
-            <li><strong>Lấy Refresh Token:</strong> Tự động lấy và lưu trữ Token để sử dụng lâu dài.</li>
-            <li><strong>Đọc Email:</strong> Truy xuất email mới nhất (Inbox & Spam), tùy chỉnh số lượng thư cần lấy.</li>
-            <li><strong>Quản lý danh sách:</strong> Hỗ trợ nhập (Import) list tài khoản và chuyển đổi giữa các email.</li>
-            <li><strong>Tương tác:</strong> Sao chép nội dung hoặc lấy link trong mail dễ dàng.</li>
-        </ul>
-    </div>
-
-    <div class="requirements-box">
-        <span class="req-text">
-            Có thể cần WebView2 Runtime / .NET Framework nếu máy chưa có sẵn.
-        </span>
-    </div>
-
-    <div class="download-box">
-        <span class="version-text">
-            Phiên bản mới nhất trên GitHub Releases
-        </span>
-        
-        <a href="https://github.com/songmaucodai/read-mail-outlook/releases/latest/download/Read-Mail-Outlook.zip" class="btn-download">
-            <i class="fa-brands fa-github"></i>
-            Tải xuống ngay (ZIP)
+    <div id="showcase-top">
+        <a href="https://github.com/songmaucodai" class="back-to-github" target="_blank">
+            <svg class="icon-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <svg class="icon-github" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            <span>GitHub Profile</span>
         </a>
 
-        <p class="note">
-            <i class="fa-brands fa-windows"></i> Hỗ trợ: Windows 10 / 11
-        </p>
+        <div class="app-window" id="appWindow" onclick="closeAllPopups(event)">
+            
+            <div class="app-title-bar">
+                <img src="https://songmaucodai.com/read-mail-ol/Logo-app.png" alt="icon">
+                <span>Read Mail Ol</span>
+                <div class="window-controls">
+                    <span>─</span><span>□</span><span onclick="window.location.href='https://github.com/songmaucodai/read-mail-ol'">✕</span>
+                </div>
+            </div>
+
+            <div class="app-body">
+                
+                <div class="left-panel">
+                    <div class="tabs-bar">
+                        <button class="tab-btn active" id="tabInbox" onclick="switchMainTab('inbox', event)">Hộp thư đến (1)</button>
+                        <button class="tab-btn" id="tabJunk" onclick="switchMainTab('junk', event)">Thư rác (0)</button>
+                        
+                        <button class="header-icon-btn" onclick="toggleMainMenu(event)">☰</button>
+
+                        <div id="mainMenu" class="menu-float">
+                            <div class="menu-item" onclick="openSettingsUI('settings', event)">Cài đặt</div>
+                            <div class="menu-item" onclick="openSettingsUI('cache', event)">Bộ nhớ đệm</div>
+                            <div class="menu-item" onclick="openSettingsUI('about', event)">Thông tin</div>
+                        </div>
+                    </div>
+                    
+                    <div class="content-area">
+                        <div id="viewInbox" class="mail-results" style="display: block;">
+                            <div class="mail-row" onclick="viewMailDetail('Welcome to GitHub!', event)">
+                                <div class="mail-row-subject">Welcome to GitHub!</div>
+                                <div class="mail-row-meta"><span>Từ: GitHub</span><span>Hôm nay, 08:30 AM</span></div>
+                                <div class="mail-row-preview">Chào mừng bạn đã gia nhập nền tảng. Hãy bắt đầu khám phá...</div>
+                            </div>
+                        </div>
+                        <div id="viewJunk" class="mail-results" style="display: none;">
+                            <div style="padding: 40px; text-align: center; color: #888;">Không có thư rác.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-panel" onclick="event.stopPropagation()">
+                    <div class="section-title" style="display:flex; justify-content:space-between;">
+                        DANH SÁCH TÀI KHOẢN <span style="color:var(--tealFg); cursor:pointer;" onclick="getTokenMock(event)">LẤY TOKEN</span>
+                    </div>
+                    
+                    <div class="acc-list-box">
+                        <div class="acc-item selected" id="acc1" onclick="selectAccount('acc1', 'abc@xyz.com', event)">
+                            <span>abc@xyz.com</span> 
+                        </div>
+                        <div class="acc-item" id="acc2" onclick="selectAccount('acc2', 'user@domain.com', event)">
+                            <span>user@domain.com</span> 
+                        </div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button class="btn-std" onclick="openMockFile(event)">Mở File</button>
+                        <button class="btn-std" onclick="refreshListMock(event)">Làm mới</button>
+                    </div>
+
+                    <div class="section-title" style="margin-top:10px;">EMAIL ĐANG CHỌN</div>
+                    <div style="background:var(--panel); border:1px solid var(--line); color:var(--text); border-radius:6px; height:40px; display:flex; align-items:center; justify-content:center; font-size:13px;" id="currentEmailDisplay">
+                        abc@xyz.com
+                    </div>
+
+                    <button class="btn-main" onclick="readMailMock(event)">Đọc Mail</button>
+                </div>
+
+                <div id="appToast" class="app-toast">
+                    <span id="toastMsg">Đã lưu Token thành công!</span>
+                </div>
+
+            </div> 
+            
+            <div id="settingsOverlay" class="dlg-overlay" onclick="closeSettingsUI(event)">
+                <div class="settings-dlg" onclick="event.stopPropagation()">
+                    <button onclick="closeSettingsUI(event)" style="position:absolute; top:10px; right:10px; background:transparent; border:none; color:#888; cursor:pointer;">✕</button>
+                    
+                    <div class="settings-side">
+                        <div id="navSet" class="side-item active" onclick="switchSettingsTabUI('settings', event)">Cài đặt</div>
+                        <div id="navCache" class="side-item" onclick="switchSettingsTabUI('cache', event)">Bộ nhớ đệm</div>
+                        <div id="navAbout" class="side-item" onclick="switchSettingsTabUI('about', event)">Thông tin</div>
+                    </div>
+
+                    <div class="settings-main">
+                        <div id="viewSet" style="display:block; height:100%;">
+                            <h2 style="margin:0 0 5px 0; color:#fff;">Cài đặt UI Demo</h2>
+                            <p style="color:#888; font-size:13px; margin: 0 0 20px 0;">Giao diện giả lập, không có tác dụng thật.</p>
+                        </div>
+                        
+                        <div id="viewCache" style="display:none; height:100%;">
+                            <h2 style="margin: 0 0 5px 0; color: #fff;">Bộ nhớ đệm UI Demo</h2>
+                            <p style="color: #888; font-size: 13px; margin: 0 0 20px 0;">Giao diện giả lập, không có tác dụng thật.</p>
+                        </div>
+
+                        <div id="viewAbout" style="display:none; height:100%;">
+                            <h2 style="margin: 0 0 5px 0; color: #fff;">Thông tin UI Demo</h2>
+                            <p style="color: #888; font-size: 13px; margin: 0 0 20px 0;">Giao diện giả lập, không có tác dụng thật.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tokenLoginPopup" class="dlg-overlay" style="z-index: 2500;">
+                <div style="width: 450px; height: 670px; background: var(--bg); border: 1px solid #333; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.6);" onclick="event.stopPropagation()">
+                    
+                    <div class="app-title-bar">
+                        <img src="https://songmaucodai.com/read-mail-ol/Logo-app.png" alt="icon">
+                        <span>Đăng nhập</span>
+                        <div class="window-controls">
+                            <span onclick="document.getElementById('tokenLoginPopup').style.display='none'">✕</span>
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; flex: 1;">
+                        <div class="loading-spinner"></div>
+                        <div style="color: #ccc; font-size: 13px;">Đang đăng nhập...</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="mailWindowPopup" class="dlg-overlay" style="z-index: 2000;">
+                <div style="background: #ffffff; width: 650px; height: 500px; border-radius: 0; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.6); border: 1px solid #444;" onclick="event.stopPropagation()">
+                    
+                    <div class="app-title-bar">
+                        <img src="https://songmaucodai.com/read-mail-ol/Logo-app.png" alt="icon">
+                        <span id="mailWindowTitle">Welcome to GitHub!</span>
+                        <div class="window-controls">
+                            <span>─</span><span>□</span>
+                            <span onclick="closeMailWindowMock(event)" style="font-weight: bold;">✕</span>
+                        </div>
+                    </div>
+
+                    <div id="mailWindowContent" style="flex: 1; padding: 25px; color: #111; overflow-y: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                    </div>
+                </div>
+            </div>
+            
+        </div>
     </div>
 
-    <div class="footer-nav">
-        <a href="https://songmaucodai.github.io"><i class="fa-solid fa-arrow-left"></i> Về trang chủ</a>
-        <a href="https://github.com/songmaucodai/read-mail-outlook" target="_blank"><i class="fa-brands fa-github"></i> GitHub Project</a>
+    <div id="showcase-bottom">
+        <div class="code-header">
+            <span class="code-title" id="codeTitle">Sẵn sàng</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="code-badge">JS</span>
+                <a href="https://songmaucodai.com/read-mail-ol/" target="_blank" style="color: #888; display: flex; align-items: center; transition: color 0.2s;" onmouseover="this.style.color='#61afef'" onmouseout="this.style.color='#888'">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </a>
+            </div>
+        </div>
+        <div class="code-content" id="codeContentBox">
+            <pre id="codeDisplay"><span class="comment">// Hãy thao tác với giao diện bên trên (Click Tab, Mở Menu, Lấy Token...)</span>
+<span class="comment">// Mã Javascript mô phỏng sẽ hiển thị tại đây.</span></pre>
+        </div>
     </div>
 
     <script>
-        function showFallback() {
-            document.getElementById('real-image').style.display = 'none';
-            document.getElementById('fallback-box').style.display = 'flex';
+        function resizeAppSimulator() {
+            const container = document.getElementById('showcase-top');
+            const app = document.getElementById('appWindow');
+            const availableWidth = container.clientWidth - 40; 
+            const availableHeight = container.clientHeight - 40;
+            const scale = Math.min(availableWidth / 1024, availableHeight / 650, 1);
+            app.style.transform = `scale(${scale})`;
+            
+            const profileBtn = document.querySelector('.back-to-github');
+            profileBtn.style.top = `calc(50% - ${(650 * scale) / 2}px)`;
         }
-    </script>
+        window.addEventListener('resize', resizeAppSimulator);
+        resizeAppSimulator();
 
+        function renderCode(title, codeString) {
+            document.getElementById('codeTitle').innerText = title;
+            const display = document.getElementById('codeDisplay');
+            let formatted = codeString
+                .replace(/function/g, '<span class="keyword">function</span>')
+                .replace(/const |let |var /g, '<span class="keyword">$&</span>')
+                .replace(/document\.getElementById/g, '<span class="function">document.getElementById</span>')
+                .replace(/style\.display/g, '<span class="function">style.display</span>')
+                .replace(/'([^']+)'/g, '<span class="string">\'$1\'</span>')
+                .replace(/(\/\/.*)/g, '<span class="comment">$1</span>')
+                .replace(/(&lt;.*?&gt;)/g, '<span class="string">$1</span>'); 
+
+            display.style.opacity = '0';
+            setTimeout(() => {
+                display.innerHTML = formatted;
+                display.style.opacity = '1';
+                document.getElementById('codeContentBox').scrollTop = 0;
+            }, 50);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('appToast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('show');
+            setTimeout(() => {
+                toast.classList.add('show');
+                setTimeout(() => { toast.classList.remove('show'); }, 2500);
+            }, 50);
+        }
+
+        function closeAllPopups(e) { document.getElementById('mainMenu').style.display = 'none'; }
+
+        function toggleMainMenu(e) {
+            e.stopPropagation();
+            const menu = document.getElementById('mainMenu');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+            renderCode('Toggle Menu', `function toggleMainMenu(event) {\n    event.stopPropagation();\n    const menu = document.getElementById('mainMenu');\n    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';\n}`);
+        }
+
+        function switchMainTab(tabName, e) {
+            e.stopPropagation();
+            document.getElementById('tabInbox').classList.toggle('active', tabName === 'inbox');
+            document.getElementById('tabJunk').classList.toggle('active', tabName === 'junk');
+            document.getElementById('viewInbox').style.display = tabName === 'inbox' ? 'block' : 'none';
+            document.getElementById('viewJunk').style.display = tabName === 'junk' ? 'block' : 'none';
+        }
+
+        function openSettingsUI(tabName, e) {
+            e.stopPropagation();
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('settingsOverlay').style.display = 'flex';
+            switchSettingsTabUI(tabName, e);
+        }
+
+        function closeSettingsUI(e) {
+            e.stopPropagation();
+            document.getElementById('settingsOverlay').style.display = 'none';
+        }
+
+        function switchSettingsTabUI(tabName, e) {
+            e.stopPropagation();
+            ['navSet', 'navCache', 'navAbout'].forEach(id => document.getElementById(id).classList.remove('active'));
+            ['viewSet', 'viewCache', 'viewAbout'].forEach(id => document.getElementById(id).style.display = 'none');
+
+            if (tabName === 'settings') { document.getElementById('navSet').classList.add('active'); document.getElementById('viewSet').style.display = 'block'; }
+            else if (tabName === 'cache') { document.getElementById('navCache').classList.add('active'); document.getElementById('viewCache').style.display = 'block'; }
+            else if (tabName === 'about') { document.getElementById('navAbout').classList.add('active'); document.getElementById('viewAbout').style.display = 'block'; }
+        }
+
+        function selectAccount(elId, emailText, e) {
+            e.stopPropagation();
+            document.querySelectorAll('.acc-item').forEach(el => el.classList.remove('selected'));
+            document.getElementById(elId).classList.add('selected');
+            document.getElementById('currentEmailDisplay').innerText = emailText;
+        }
+
+        function getTokenMock(e) { 
+            e.stopPropagation(); 
+            document.getElementById('tokenLoginPopup').style.display = 'flex';
+            
+            renderCode('Get Token Flow', `function getTokenMock() {\n    showLoginPopup();\n    \n    setTimeout(() => {\n        closeLoginPopup();\n        showToast("Đã lưu Token thành công!");\n    }, 800);\n}`);
+
+            setTimeout(() => {
+                document.getElementById('tokenLoginPopup').style.display = 'none';
+                showToast('Đã lưu Token thành công!');
+            }, 800);
+        }
+
+        function viewMailDetail(subject, e) { 
+            e.stopPropagation(); 
+            document.getElementById('mailWindowTitle').innerText = subject;
+            const htmlContent = `
+                <h2 style="color:#000; margin-top:0;">${subject}</h2>
+                <hr style="border: 0; border-bottom: 1px solid #ddd; margin-bottom: 20px;">
+                <p>Chào mừng bạn đã đến với nền tảng của chúng tôi!</p>
+                <p>Bạn đang ở địa chỉ: <a href="https://github.songmaucodai.com/read-mail-ol" style="color:#0078d4; text-decoration: none;">https://github.songmaucodai.com/read-mail-ol</a></p>
+                <p style="color: #666;">Hãy bắt đầu khám phá các tính năng của ứng dụng và chia sẻ với cộng đồng.</p>
+            `;
+            document.getElementById('mailWindowContent').innerHTML = htmlContent;
+            document.getElementById('mailWindowPopup').style.display = 'flex';
+
+            renderCode('Open PyWebview Mail', `function viewMailDetail(subject) {\n    document.getElementById('mailWindowTitle').innerText = subject;\n    document.getElementById('mailWindowContent').innerHTML = '<h2>...</h2><p>bạn đang ở địa chỉ https://github.songmaucodai.com/read-mail-ol</p>';\n    document.getElementById('mailWindowPopup').style.display = 'flex';\n}`);
+        }
+
+        function closeMailWindowMock(e) {
+            e.stopPropagation();
+            document.getElementById('mailWindowPopup').style.display = 'none';
+        }
+        
+        function openMockFile(e) { e.stopPropagation(); renderCode('Open File Click', `function openMockFile() {\n}`); }
+        function refreshListMock(e) { e.stopPropagation(); renderCode('Refresh Click', `function refreshListMock() {\n}`); }
+        function readMailMock(e) { e.stopPropagation(); renderCode('Read Mail Click', `function readMailMock() {\n}`); }
+    </script>
 </body>
 </html>
