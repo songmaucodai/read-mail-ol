@@ -7,30 +7,30 @@
 
 ## [UI Demo](https://github.songmaucodai.com/read-mail-ol/)
 
-## 📖 Giới thiệu
+## Giới thiệu
 
 Demo giao diện UI cho ứng dụng **Read Mail Ol** - công cụ lấy token & đọc mail điện tử miễn phí.
 
 > **Lưu ý**: Đây chỉ là UI demo, không phải ứng dụng thực.
 
-## ✨ Về Read Mail Ol
+## Về Read Mail Ol
 
 Công cụ hỗ trợ lấy Token từ tài khoản Mail và truy cập hộp thư tự động. Quản lý nhiều tài khoản qua giao thức OAuth2 an toàn.
 
 **Tính năng:**
-- 🔐 Lấy & lưu Token tự động
-- 📧 Đọc email (Inbox & Spam)
-- 📂 Quản lý danh sách tài khoản
-- 💾 Sao chép nội dung & link
+- Lấy & lưu Token tự động
+- Đọc email (Inbox & Spam)
+- Quản lý danh sách tài khoản
+- Sao chép nội dung & link
 
-## 🎨 Demo bao gồm
+## Demo bao gồm
 
 - Layout 2 panel (Mail list + Account manager)
 - Tab Hộp thư đến / Thư rác
 - Chi tiết email & dialog cài đặt
 - Code preview cho developers
 
-## 📄 License
+## License
 
 Copyright (c) 2024 - 2026 Songmaucodai
 
