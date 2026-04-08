@@ -1,58 +1,45 @@
-<div align="center">
+# Read Mail Ol - UI Demo
 
-  <img src="Logo-app.png" alt="Read Mail Outlook Logo" width="120" height="120">
+![License](https://img.shields.io/badge/license-Free-green.svg)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
-  # Read Mail Outlook
+## 🚀 Xem Demo
 
-  **Công cụ lấy Refresh Token & Đọc Mail Outlook**
-   
-  [![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square)]()
-  [![License](https://img.shields.io/badge/License-Freeware-green?style=flat-square)](LICENSE)
-  [![Type](https://img.shields.io/badge/Type-Single%20EXE-orange?style=flat-square)]()
+**Live Demo**: [https://songmaucodai.com/read-mail-ol/](https://songmaucodai.com/read-mail-ol/)
 
-  <br>
+## 📖 Giới thiệu
 
-  [Xem Trang Giới Thiệu & Tải Xuống](https://songmaucodai.github.io/read-mail-outlook/)
+Demo giao diện UI cho ứng dụng **Read Mail Ol** - công cụ lấy token & đọc mail điện tử miễn phí.
 
-</div>
+> **Lưu ý**: Đây chỉ là UI demo, không phải ứng dụng thực.
 
----
+## ✨ Về Read Mail Ol
 
-## Giới thiệu
+Công cụ hỗ trợ lấy Token từ tài khoản Mail và truy cập hộp thư tự động. Quản lý nhiều tài khoản qua giao thức OAuth2 an toàn.
 
-**Read Mail Outlook** là công cụ giúp bạn lấy Refresh Token từ tài khoản Microsoft và sử dụng nó để truy cập vào các email trong hộp thư Outlook của bạn. Công cụ hỗ trợ tự động hoá quy trình đăng nhập qua OAuth2.
+**Tính năng:**
+- 🔐 Lấy & lưu Token tự động
+- 📧 Đọc email (Inbox & Spam)
+- 📂 Quản lý danh sách tài khoản
+- 💾 Sao chép nội dung & link
 
-### Tính Năng Chính
-* **Lấy Refresh Token:** Tự động lấy và lưu trữ Token để sử dụng lâu dài.
-* **Đọc Email:** Truy xuất email mới nhất (Hộp thư đến & Spam), hỗ trợ tùy chỉnh số lượng thư cần lấy.
-* **Quản lý danh sách:** Hỗ trợ nhập (Import) list tài khoản và chuyển đổi nhanh giữa các email.
-* **Tương tác:** Sao chép nội dung hoặc lấy link trong mail dễ dàng.
+## 🎨 Demo bao gồm
 
-## ⚙️ Yêu cầu hệ thống
+- Layout 2 panel (Mail list + Account manager)
+- Tab Hộp thư đến / Thư rác
+- Chi tiết email & dialog cài đặt
+- Code preview cho developers
 
-* **Hệ điều hành:** Windows 10 / 11
+## 📄 License
 
-## Tải xuống & Cài đặt
+Copyright (c) 2024 - 2026 Songmaucodai
 
-Đây là phần mềm dạng **Single File** (Chỉ duy nhất 1 file EXE, chạy ngay không cần cài đặt).
+Miễn phí cho mục đích **cá nhân và phi thương mại**. Không được bán, chỉnh sửa hoặc phân phối lại.
 
-<a href="https://github.com/songmaucodai/read-mail-outlook/releases/latest/download/Read-Mail-Outlook.zip"><strong>Tải xuống ngay (ZIP)</strong></a>
-
-**Hướng dẫn:**
-1. Tải file `Read-Mail-Outlook.zip` về máy.
-2. Giải nén file ra máy (1 file duy nhất).
-3. Đặt file ở bất cứ đâu bạn muốn và chạy file `.exe` để bắt đầu sử dụng.
-
-> *Lưu ý: Có thể cần WebView2 Runtime / .NET Framework nếu máy chưa có sẵn.*
-
-## Bản quyền
-
-Phần mềm được phát hành miễn phí (**Freeware**) cho mục đích sử dụng cá nhân.
-Nghiêm cấm mọi hành vi mua bán thương mại hoặc dịch ngược mã nguồn (Reverse Engineering).
-
-Xem chi tiết tại file [LICENSE](LICENSE).
+Xem chi tiết đầy đủ tại [LICENSE](LICENSE) file.
 
 ---
-<div align="center">
-  Copyright (c) 2024 - 2026 Songmaucodai
-</div>
+
+Made with ❤️ by songmaucodai
