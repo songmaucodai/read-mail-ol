@@ -124,6 +124,7 @@
 
                         <div id="mainMenu" class="menu-float">
                             <div class="menu-item" onclick="openSettingsUI('settings', event)">Cài đặt</div>
+							<div class="menu-item" onclick="openSettingsUI('proxy', event)">Proxy</div>
                             <div class="menu-item" onclick="openSettingsUI('cache', event)">Bộ nhớ đệm</div>
                             <div class="menu-item" onclick="openSettingsUI('about', event)">Thông tin</div>
                         </div>
@@ -182,6 +183,7 @@
                     
                     <div class="settings-side">
                         <div id="navSet" class="side-item active" onclick="switchSettingsTabUI('settings', event)">Cài đặt</div>
+						<div id="navProxy" class="side-item" onclick="switchSettingsTabUI('proxy', event)">Proxy</div>
                         <div id="navCache" class="side-item" onclick="switchSettingsTabUI('cache', event)">Bộ nhớ đệm</div>
                         <div id="navAbout" class="side-item" onclick="switchSettingsTabUI('about', event)">Thông tin</div>
                     </div>
@@ -190,6 +192,11 @@
                         <div id="viewSet" style="display:block; height:100%;">
                             <h2 style="margin:0 0 5px 0; color:#fff;">Cài đặt UI Demo</h2>
                             <p style="color:#888; font-size:13px; margin: 0 0 20px 0;">Giao diện giả lập, không có tác dụng thật.</p>
+                        </div>
+						
+						<div id="viewProxy" style="display:none; height:100%;">
+                          <h2 style="margin: 0 0 5px 0; color: #fff;">Proxy UI Demo</h2>
+                          <p style="color: #888; font-size: 13px; margin: 0 0 20px 0;">Giao diện giả lập, không có tác dụng thật.</p>
                         </div>
                         
                         <div id="viewCache" style="display:none; height:100%;">
@@ -336,10 +343,11 @@
 
         function switchSettingsTabUI(tabName, e) {
             e.stopPropagation();
-            ['navSet', 'navCache', 'navAbout'].forEach(id => document.getElementById(id).classList.remove('active'));
-            ['viewSet', 'viewCache', 'viewAbout'].forEach(id => document.getElementById(id).style.display = 'none');
-
+            ['navSet', 'navProxy', 'navCache', 'navAbout'].forEach(id => document.getElementById(id).classList.remove('active'));
+            ['viewSet', 'viewProxy', 'viewCache', 'viewAbout'].forEach(id => document.getElementById(id).style.display = 'none');
+        
             if (tabName === 'settings') { document.getElementById('navSet').classList.add('active'); document.getElementById('viewSet').style.display = 'block'; }
+            else if (tabName === 'proxy') { document.getElementById('navProxy').classList.add('active'); document.getElementById('viewProxy').style.display = 'block'; }
             else if (tabName === 'cache') { document.getElementById('navCache').classList.add('active'); document.getElementById('viewCache').style.display = 'block'; }
             else if (tabName === 'about') { document.getElementById('navAbout').classList.add('active'); document.getElementById('viewAbout').style.display = 'block'; }
         }
