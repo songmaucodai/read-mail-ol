@@ -1,4 +1,8 @@
 {
   "version": "3.0.2",
-  "changelog": "Bản cập nhật v3.0.2"
+  "notifications": [
+    "Hệ thống vừa tối ưu luồng đọc Mail Junk.",
+    "Bảo trì Server Proxy vào 24h đêm nay.",
+    "Chúc mừng bạn đã sử dụng Read Mail Ol!"
+  ]
 }
